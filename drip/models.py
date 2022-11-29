@@ -17,6 +17,8 @@ from drip.utils import get_user_model, validate_schedules
 # Raise exception if SCHEDULER is not valid
 validate_schedules()
 
+from app.models import Customer
+
 # from drip.helpers import parse.
 # just using this to parse, but totally insane package naming...
 # https://bitbucket.org/schinckel/django-timedelta-field/
@@ -61,7 +63,7 @@ class AbstractDrip(models.Model):
         help_text="If set, this is the campaign to which this Drip belongs to.",
     )
     unsubscribed_users = models.ManyToManyField(
-        getattr(settings, "AUTH_USER_MODEL", "auth.User"),
+        Customer,
         through="UserUnsubscribeDrip",
         related_name="drips_unsubscribed",
     )
@@ -104,7 +106,7 @@ class AbstractSentDrip(models.Model):
         on_delete=models.CASCADE,
     )
     user = models.ForeignKey(
-        getattr(settings, "AUTH_USER_MODEL", "auth.User"),
+        Customer,
         related_name="sent_drips",
         on_delete=models.CASCADE,
     )
@@ -355,7 +357,7 @@ class UserUnsubscribeDrip(models.Model):
         on_delete=models.CASCADE,
     )
     user = models.ForeignKey(
-        getattr(settings, "AUTH_USER_MODEL", "auth.User"),
+        Customer,
         related_name="user_unsubscribe_drips",
         on_delete=models.CASCADE,
     )
@@ -364,7 +366,7 @@ class UserUnsubscribeDrip(models.Model):
 
 class UserUnsubscribe(models.Model):
     user = models.ForeignKey(
-        getattr(settings, "AUTH_USER_MODEL", "auth.User"),
+        Customer,
         related_name="user_unsubscribes",
         on_delete=models.CASCADE,
     )

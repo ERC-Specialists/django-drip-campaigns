@@ -185,15 +185,20 @@ def get_simple_fields(Model: Type[models.Model], **kwargs) -> List:
     return ret_list
 
 
-def get_user_model() -> Type[User]:
+def get_user_model():
     # handle 1.7 and back
-    try:
-        from django.contrib.auth import get_user_model as django_get_user_model
+    from app.models import Customer
+    return Customer
 
-        User = django_get_user_model()
-    except ImportError:
-        pass
-    return User
+# def get_user_model() -> Type[User]:
+#     # handle 1.7 and back
+#     try:
+#         from django.contrib.auth import get_user_model as django_get_user_model
+
+#         User = django_get_user_model()
+#     except ImportError:
+#         pass
+#     return User
 
 
 def get_conditional_now() -> Callable:
